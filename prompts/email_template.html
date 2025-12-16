@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .sql-query {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+        .step-item {
+            background: white;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 3px solid #2196F3;
+        }
+        .footer {
+            background: #e9ecef;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="content">
+            
+            <div style="background: {{urgency_color}}; border-left: 4px solid {{urgency_border}}; padding: 15px; margin: 20px 0; border-radius: 4px;"> 
+                <h3 style="margin-top: 0; border: none;">⏰ Urgency: {{urgency_level}}</h3>
+                <p style="margin-bottom: 0;">{{urgency_message}}</p>
+            </div>
+            
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin: 20px 0; border-radius: 4px;">
+                <h3 style="margin-top: 0; border: none;">📋 What Happened?</h3>
+                <p style="margin-bottom: 10px;">{{error_summary}}</p>
+                <p style="margin: 0; font-size: 14px; color: #666;">
+                    <strong>Job:</strong> {{job_name}} | 
+                    <strong>Server:</strong> {{instance_name}} | 
+                    <strong>Failed At:</strong> {{failure_time}} | 
+                    <strong>Error:</strong> {{error_code}}
+                </p>
+            </div>
+            
+            <div style="background: #e7f3ff; border-left: 4px solid #2196F3; padding: 20px; margin: 20px 0; border-radius: 4px;">
+                <h3 style="margin-top: 0; border: none; color: #1565C0;">💡 Solution</h3>
+                {{solution_content}}
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding: 20px;">
+                <p style="margin-bottom: 15px; color: #666;">Need help? Contact our DBA team:</p>
+                <a href="mailto:{{contact_email}}" class="button">📧 Get Support from DBA Team</a>
+            </div>
+            
+        </div>
+        
+        <div class="footer">
+            <p>
+                <strong>This is an automated alert from the MSSQL Job Monitor System</strong><br>
+                Generated: {{timestamp}}<br>
+                <br>
+                Do not reply to this email. For support, contact: <strong>{{contact_email}}</strong><br>
+                Sender: {{sender_email}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

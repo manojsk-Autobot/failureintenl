@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  mssql-failure-agent:
+    image: mssql-failure-agent:latest
+    container_name: mssql-failure-agent
+    ports:
+      - "8000:8000"
+    environment:
+      # Database Configuration
+      - MSSQL_SERVER=${MSSQL_SERVER:-localhost}
+      - MSSQL_DATABASE=${MSSQL_DATABASE:-failed_jobs}
+      - MSSQL_USERNAME=${MSSQL_USERNAME:-sa}
+      - MSSQL_PASSWORD=${MSSQL_PASSWORD}
+      - MSSQL_DRIVER=ODBC Driver 18 for SQL Server
+      - MSSQL_TRUST_CERT=yes
+      - MSSQL_ENCRYPT=yes
+      
+      # Email Configuration
+      - SMTP_SERVER=${SMTP_SERVER:-bridgeheads.bskyb.com}
+      - SMTP_PORT=${SMTP_PORT:-25}
+      - SENDER_EMAIL=${SENDER_EMAIL:-manojkumar.selvakumar@sky.uk}
+      
+      # LLM Configuration
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-flash-latest}
+      
+      # API Configuration
+      - API_KEY=${API_KEY:-your-secret-api-key-change-this}
+      - PORT=8000
+    
+    volumes:
+      # Persistent storage for email log
+      - ./data:/data
+      # Logs directory
+      - ./logs:/app/logs
+      # Optional: Mount .env file
+      - ./.env:/.env:ro
+    
+    restart: unless-stopped
+    
+    # Allow container to access host machine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    
+    # Use host network mode to access localhost services
+    network_mode: "host"
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# Note: networks section removed since we're using host network mode
